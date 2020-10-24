@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import Mock, patch
-import RadioSixPlaylistParser
+import RadioSixPlaylist
 from PlaylistEntry import PlaylistEntry
 import encodings
 
@@ -19,13 +19,13 @@ class RadioSixPlaylistParserTest(unittest.TestCase):
         mockGet.return_value.ok = False
 
         with self.assertRaises(Exception):
-            RadioSixPlaylistParser.GetPlaylist()
+            RadioSixPlaylist.GetPlaylist()
 
     @patch('requests.get')
     def test_ShouldRaiseExceptionIfRspContentEmpty(self, mockGet):
         mockGet.return_value.ok = True
         mockGet.return_value.content = ""
-        playlist = RadioSixPlaylistParser.GetPlaylist()
+        playlist = RadioSixPlaylist.GetPlaylist()
 
         self.assertListEqual(playlist, [])
 
@@ -34,7 +34,7 @@ class RadioSixPlaylistParserTest(unittest.TestCase):
         mockGet.return_value.ok = True
         mockGet.return_value.content = LoadTestWebPage(PlaylistEntries, '-')
 
-        playlist = RadioSixPlaylistParser.GetPlaylist()
+        playlist = RadioSixPlaylist.GetPlaylist()
 
         self.assertListEqual(playlist, PlaylistEntries)
 
@@ -43,7 +43,7 @@ class RadioSixPlaylistParserTest(unittest.TestCase):
         mockGet.return_value.ok = True
         mockGet.return_value.content = LoadTestWebPage(PlaylistEntries, '–')
 
-        playlist = RadioSixPlaylistParser.GetPlaylist()
+        playlist = RadioSixPlaylist.GetPlaylist()
 
         self.assertListEqual(playlist, PlaylistEntries)
 
