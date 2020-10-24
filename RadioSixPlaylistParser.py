@@ -12,7 +12,19 @@ def _GetPlaylistFromWebsite(website):
     rsp = requests.get(website)
     if not rsp.ok:
         raise
-    return rsp.content
+    return _ExtractEntriesFromHtml(rsp.content)
+
+
+def _ExtractEntriesFromHtml(rspContent):
+    soup = BeautifulSoup(rspContent, "html.parser")
+    allProseTags = soup.find_all(class_='text--prose')[1:4]
+
+    searches = []
+    for proseTag in allProseTags:
+        pTags = proseTag.find_all('p')
+        for pTag in pTags:
+            searches.append(pTag.get_text())
+    return searches
 
 
 if __name__ == '__main__':
