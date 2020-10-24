@@ -39,9 +39,3 @@ def _ConvertToPlaylist(websitePlaylist):
         playlistEntry = PlaylistEntry(separated[0], separated[1])
         playlist.append(playlistEntry)
     return playlist
-
-
-if __name__ == '__main__':
-    playlist = GetPlaylist()
-    for item in playlist:
-        print(item)
