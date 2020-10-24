@@ -19,14 +19,9 @@ def _GetPlaylistFromWebsite(website):
 
 def _ExtractEntriesFromHtml(rspContent):
     soup = BeautifulSoup(rspContent, "html.parser")
-    allProseTags = soup.find_all(class_='text--prose')[1:4]
+    allProseDivs = soup.find_all(class_='text--prose')[1:4]
 
-    searches = []
-    for proseTag in allProseTags:
-        pTags = proseTag.find_all('p')
-        for pTag in pTags:
-            searches.append(pTag.get_text())
-    return searches
+    return [pTag.get_text() for proseDiv in allProseDivs for pTag in proseDiv.find_all('p')]
 
 
 def _ConvertToPlaylist(websitePlaylist):
