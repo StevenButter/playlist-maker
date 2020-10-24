@@ -30,12 +30,14 @@ def _ExtractEntriesFromHtml(rspContent):
 
 
 def _ConvertToPlaylist(websitePlaylist):
-    playlist = []
-    for websitePlaylistItem in websitePlaylist:
-        separated = websitePlaylistItem.split(' - ', 2)
-        if len(separated) != 2:
-            separated = websitePlaylistItem.split(' – ', 2)
+    return [_ConvertToPlaylistItem(x) for x in websitePlaylist]
 
-        playlistEntry = PlaylistEntry(separated[0], separated[1])
-        playlist.append(playlistEntry)
-    return playlist
+
+def _ConvertToPlaylistItem(websitePlaylistItem):
+    HyphenSep = ' - '
+    DashSep = ' – '
+
+    sep = HyphenSep if HyphenSep in websitePlaylistItem else DashSep
+    separated = websitePlaylistItem.split(sep, 2)
+
+    return PlaylistEntry(separated[0], separated[1])
