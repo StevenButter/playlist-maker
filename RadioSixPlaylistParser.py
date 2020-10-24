@@ -35,4 +35,4 @@ def _ConvertToPlaylistItem(websitePlaylistItem):
     sep = HyphenSep if HyphenSep in websitePlaylistItem else DashSep
     separated = websitePlaylistItem.split(sep, 2)
 
-    return PlaylistEntry(separated[0], separated[1])
+    return PlaylistEntry(separated[0].split(' ft. ')[0], separated[1])

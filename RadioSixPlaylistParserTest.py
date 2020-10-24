@@ -4,8 +4,13 @@ import RadioSixPlaylistParser
 from PlaylistEntry import PlaylistEntry
 import encodings
 
-PlaylistEntries = [PlaylistEntry('A artist', 'track name'), PlaylistEntry('A artist ft. feat artist', 'track name'), PlaylistEntry('B artist', 'track name'), PlaylistEntry(
-    'B artist ft. feat artist', 'track name'), PlaylistEntry('C artist', 'track name'), PlaylistEntry('C artist ft. feat artist', 'track name'), ]
+PlaylistEntries = [
+    PlaylistEntry('A artist', 'track name'),
+    PlaylistEntry('A artist', 'track name', featuredArtists='feat artist'),
+    PlaylistEntry('B artist', 'track name'),
+    PlaylistEntry('B artist', 'track name', featuredArtists='feat artist'),
+    PlaylistEntry('C artist', 'track name'),
+    PlaylistEntry('C artist', 'track name', featuredArtists='feat artist')]
 
 
 class RadioSixPlaylistParserTest(unittest.TestCase):
@@ -46,11 +51,17 @@ class RadioSixPlaylistParserTest(unittest.TestCase):
 def LoadTestWebPage(entries, sep):
     pTagContents = []
     for entry in entries:
-        pTagContents.append('{0} {1} {2}'.format(
-            entry.Artist(), sep, entry.TrackName()))
+        pTagContents.append(MakeString(entry, sep))
 
     with open('RadioSixTestPage.html', 'r') as webPage:
         return webPage.read().format(*pTagContents)
+
+
+def MakeString(playlistEntry, sep):
+    featuredArtistsStr = ' ft. ' + \
+        playlistEntry.FeaturedArtists() if playlistEntry.FeaturedArtists() else ''
+
+    return '{0}{1} {2} {3}'.format(playlistEntry.Artist(), featuredArtistsStr, sep, playlistEntry.TrackName())
 
 
 if __name__ == "__main__":
