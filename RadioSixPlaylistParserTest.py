@@ -49,11 +49,8 @@ class RadioSixPlaylistParserTest(unittest.TestCase):
 
 
 def LoadTestWebPage(entries, sep):
-    pTagContents = []
-    for entry in entries:
-        pTagContents.append(MakeString(entry, sep))
-
     with open('RadioSixTestPage.html', 'r') as webPage:
+        pTagContents = [MakeString(entry, sep) for entry in entries]
         return webPage.read().format(*pTagContents)
 
 
