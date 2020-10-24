@@ -15,4 +15,4 @@ class PlaylistEntry(object):
         return self._featuredArtists
 
     def __eq__(self, other):
-        return self._artist == other._artist and self._trackName == other._trackName
+        return self._artist == other._artist and self._trackName == other._trackName and self._featuredArtists == other._featuredArtists
