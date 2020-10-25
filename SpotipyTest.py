@@ -43,25 +43,34 @@ class SpotipyTest(unittest.TestCase):
         tracks = self._SearchForValidTrack()
         playlist = self._CreatePrivatePlaylist('testplaylist')
 
-        self._sp.user_playlist_add_tracks(
-            self._GetUserId(), playlist['id'], [tracks[0]['id']])
+        self._sp.playlist_add_items(playlist['id'], [tracks[0]['id']])
 
-        playlistTracks = self._sp.user_playlist_tracks(
-            self._GetUserId(), playlist['id'])
+        playlistTracks = self._sp.playlist_items(playlist['id'])
 
         self.assertIs(1, len(playlistTracks['items']))
 
         # tear down
         self._DeletePlaylist(playlist)
 
-    def _GetUserId(self):
-        return self._sp.me()['id']
+    def test_TrackIsDuplicatedIfAddedTwice(self):
+        tracks = self._SearchForValidTrack()
+        playlist = self._CreatePrivatePlaylist('testplaylist')
+
+        self._sp.playlist_add_items(
+            playlist['id'], [tracks[0]['id'], tracks[0]['id']])
+
+        playlistTracks = self._sp.playlist_items(playlist['id'])
+
+        self.assertIs(2, len(playlistTracks['items']))
+
+        # tear down
+        self._DeletePlaylist(playlist)
 
     def _CreatePrivatePlaylist(self, name):
-        return self._sp.user_playlist_create(self._GetUserId(), name, public=False)
+        return self._sp.user_playlist_create(self._sp.me()['id'], name, public=False)
 
     def _DeletePlaylist(self, playlist):
-        self._sp.user_playlist_unfollow(self._GetUserId(), playlist['id'])
+        self._sp.current_user_unfollow_playlist(playlist['id'])
 
     def _SearchForValidTrack(self):
         search = self._sp.search('fake plastic trees', limit=1, type='track')
