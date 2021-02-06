@@ -2,7 +2,7 @@ from PlaylistEntry import PlaylistEntry
 
 
 def ConvertToPlaylist(websitePlaylist):
-    return [_ConvertToPlaylistItem(x) for x in websitePlaylist]
+    return [_ConvertToPlaylistItem(x) for x in websitePlaylist if x.strip()]
 
 
 def _ConvertToPlaylistItem(websitePlaylistItem):
