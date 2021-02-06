@@ -25,6 +25,10 @@ def _SplitItem(item):
 
 def _SplitArtists(item):
     FeatArtistSep = ' ft. '
+    otherFeatArtistsep = [' w/ ', ' & ']
+
+    for sep in otherFeatArtistsep:
+        item = item.replace(sep, FeatArtistSep)
 
     return item.split(FeatArtistSep, 2)
 
